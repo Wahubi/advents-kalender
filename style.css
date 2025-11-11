@@ -7,40 +7,48 @@ html {
 
 ol {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-	color: black;
-	max-width: 120rem;
+	grid-template-columns: repeat(6, 1fr); 
+	gap: 1rem; 
+	max-width: 1200px;
 	margin: 1rem auto;
 	padding: 0 1rem;
 	counter-reset: advents-counter;
 	list-style: none;
 }
 
-@media (min-width: 80rem) {
-	/* 4x6 */
-	
-	ol {
-		grid-template-columns: repeat(4, 1fr);
-	}
+@media (max-width: 900px) {
+  ol {
+    grid-template-columns: repeat(3, 1fr); 
+  }
 }
 
-@media (min-width: 120rem) {
-	/* 6x4 */
-	
-	ol {
-		grid-template-columns: repeat(6, 1fr);
-	}
+@media (max-width: 600px) {
+  ol {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 li {
-	min-height: 10em;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 0;
-	border: thin solid var(--bordercolor);
-	counter-increment: advents-counter;
-	position: relative;
+ 
+  display: flex;               
+  align-items: center;         
+  justify-content: center;     
+  
+  
+  min-height: 10em;              
+  min-width: 10em;             
+  
+  border: thin solid var(--bordercolor); 
+  border-radius: 12px;         
+  background-color: #ffb86b;    
+  font-size: 2rem;              
+  font-weight: bold;            
+  color: #071326;                
+  cursor: pointer;               
+  
+
+  counter-increment: advents-counter; 
+  position: relative;                
 }
 
 li::after {
