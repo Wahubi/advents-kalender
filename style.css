@@ -136,6 +136,16 @@ li:nth-of-type(22) {
 	order: 18;
 }
 
+
+li {
+  box-shadow: 0 6px 18px rgba(7,19,38,0.12);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+li:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(7,19,38,0.18);
+}
+
 h1 {
 	text-align: center;
 }
