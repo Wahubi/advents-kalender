@@ -1,9 +1,8 @@
-
 html {
   --bgcolor: #e6f2f7;
   --linkcolor: #337599;
   --bordercolor: #c82f04;
-  --card-bg: #ffb86b;      
+  --card-bg: #ffb86b;
   --card-text: #071326;
   background: var(--bgcolor);
   box-sizing: border-box;
@@ -11,13 +10,59 @@ html {
 
 *, *::before, *::after { box-sizing: inherit; }
 
-body{
+
+:root {
+  --bg-fallback: #e6f2f7;
+}
+
+body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
   color: var(--card-text);
-  -webkit-font-smoothing:antialiased;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bg-fallback); /* fallback */
+  overflow-x: hidden;
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;  
+  display: block;
+  background-image: url("assets/Weihnachten.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(4px) saturate(.9);
+  transform: scale(1.03);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(rgba(0,0,0,0.28), rgba(0,0,0,0.28));
+  pointer-events: none;
+}
+
+#calendar,
+#calendar * {
+  position: relative;
+  z-index: 2;
+}
+
+/* responsive tweaks */
+@media (max-width: 600px) {
+  body::before { filter: blur(2px) saturate(.85); transform: scale(1.02); }
+  body::after  { background: rgba(0,0,0,0.42); }
+}
+
+/* --- GRID --- */
 ol {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -29,13 +74,10 @@ ol {
   list-style: none;
 }
 
-@media (max-width: 900px) {
-  ol { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 600px) {
-  ol { grid-template-columns: repeat(2, 1fr); }
-}
+@media (max-width: 900px) { ol { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { ol { grid-template-columns: repeat(2, 1fr); } }
 
+/* --- TÜRCHEN --- */
 li {
   display: flex;
   align-items: center;
@@ -45,21 +87,21 @@ li {
   min-height: 10em;
   min-width: 10em;
 
-
   border: thin solid var(--bordercolor);
   border-radius: 12px;
-  background-color: var(--card-bg);
+  background-color: transparent;
   color: var(--card-text);
   font-size: 2rem;
   font-weight: 700;
-  cursor: pointer;
 
-  counter-increment: advents-counter;
   position: relative;
+  overflow: hidden;
+  counter-increment: advents-counter;
 
+  padding: 0;    
 
   box-shadow: 0 6px 18px rgba(7,19,38,0.12);
-  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
 li:hover,
@@ -68,88 +110,115 @@ li:focus-within {
   box-shadow: 0 18px 40px rgba(7,19,38,0.18);
 }
 
+/* --- BADGE ZAHL --- */
 li::after {
-  --size: 2rem;
-  content: counter(advents-counter);
-  position: absolute;
-  color: var(--bgcolor);
-  font-size: calc(var(--size) * .75);
-  font-weight: 700;
-  right: calc(var(--size) * .25);
-  top: calc(var(--size) * .25);
-  line-height: var(--size);
-  width: var(--size);
-  height: var(--size);
-  padding: calc(var(--size) * .2);
-  transform: rotate(-10deg);
-  background-color: var(--bordercolor);
-  border-radius: 50%;
-  text-align: center;
-  box-shadow: calc(var(--size) * .05) calc(var(--size) * .05) 0 #999;
-  pointer-events: none; /* verhindert, dass der Kreis Klicks blockiert */
-}
+  --size: 2.8rem;
 
-li > .donate,
-li > .coming_soon,
-li > button.door {
-  margin: 0;
-  align-self: center;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  display: flex;
+  content: counter(advents-counter);
+
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+
+  height: var(--size);
+  min-width: var(--size);
+  padding-inline: calc(var(--size) * 0.35);
+
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: 0;
-  padding: 0.5rem;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
 
-li > .donate::after,
-li > .coming_soon::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  color: var(--bgcolor);
+  font-size: calc(var(--size) * 0.55);
+  font-weight: 700;
+
+  background-color: var(--bordercolor);
+  border-radius: 999px;
+  transform: rotate(-10deg);
+  box-shadow: 0 0 4px rgba(0,0,0,0.25);
+
+  z-index: 5;            /* >>> Badge ist immer OBEN <<< */
   pointer-events: none;
 }
 
-li > :not(.open) {
-  color: var(--bgcolor);
-  transition: color .45s ease;
-}
-li > :not(.open):hover,
-li > :not(.open):focus {
-  color: var(--linkcolor);
-  transition: color .25s ease;
+/* --- BUTTON DER TÜR --- */
+li > button.door {
+
+  background: var(--card-bg); /* Fallback-Farbe */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  margin: 0;
+  align-self: center;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  position: relative; /* Für absolute Inhalte */
+  z-index: 1;
 }
 
-/* Beispiel: wenn ein button.door die Klasse .open bekommt, zeigen wir open-content */
-button.door {
-  position: relative;
-  text-decoration: none;
+/* --- CLOSED LABEL (Überraschung) --- */
+button.door .closed-label {
+  color: var(--card-text);
+  transition: color .35s ease, opacity .25s ease;
+  display: inline-block;
+  user-select: none;
+  z-index: 3;
 }
+
+button.door:hover .closed-label {
+  color: var(--linkcolor);
+}
+
+/* --- OPEN CONTENT (Hinweis-Text) --- */
 button.door .open-content {
+  position: absolute;
+  inset: 0;
+
+  /* ZENTRIERUNG (sichtbar nur wenn open) */
+  align-items: center;
+  justify-content: center;
+  display: none;            /* initial versteckt; bei .open sichtbar */
+  text-align: center;
+
+  padding: 1.8rem;          /* verhindert Überlappung mit Badge */
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+
+  color: var(--card-text);
+  background: transparent;
+  z-index: 6;
+}
+/* --- WENN GEÖFFNET --- */
+button.door.open .closed-label {
   display: none;
 }
+
 button.door.open .open-content {
-  display: block;
-}
-button.door.open .closed-label {
-  visibility: hidden;
-  opacity: 0;
+  display: flex;
 }
 
-
+/* --- FOCUS --- */
 button.door:focus {
   outline: none;
   box-shadow: 0 0 0 4px rgba(51,115,153,0.18);
   transform: translateY(-4px);
 }
 
-
+/* --- REIHENFOLGEN / MISCHUNG --- */
 li:nth-of-type(1)  { order: 5; }
 li:nth-of-type(4)  { order: 7; }
 li:nth-of-type(5)  { order: 21; }
@@ -163,4 +232,168 @@ li:nth-of-type(16) { order: 7; }
 li:nth-of-type(21) { order: 2; }
 li:nth-of-type(22) { order: 18; }
 
-h1 { text-align: center; margin: 0.75rem 0; }
+h1 {
+  text-align: center;
+  margin: 0.75rem 0;
+}
+
+
+
+li.day1 > button.door {
+  background-image: url('assets/tag1.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day2 > button.door {
+  background-image: url('assets/tag2.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day3 > button.door {
+  background-image: url('assets/tag3.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day4 > button.door {
+  background-image: url('assets/tag4.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day5 > button.door {
+  background-image: url('assets/tag5.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day6 > button.door {
+  background-image: url('assets/tag6.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day7 > button.door {
+  background-image: url('assets/tag7.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day8 > button.door {
+  background-image: url('assets/tag8.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day9 > button.door {
+  background-image: url('assets/tag9.jpg');
+  background-size: cover;      
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+li.day10 > button.door {
+  background-image: url('assets/tag10.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day11 > button.door {
+  background-image: url('assets/tag11.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day12 > button.door {
+  background-image: url('assets/tag12.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day13 > button.door {
+  background-image: url('assets/tag13.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day14 > button.door {
+  background-image: url('assets/tag14.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day15 > button.door {
+  background-image: url('assets/tag15.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day16 > button.door {
+  background-image: url('assets/tag16.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day17 > button.door {
+  background-image: url('assets/tag17.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day18 > button.door {
+  background-image: url('assets/tag18.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day19 > button.door {
+  background-image: url('assets/tag19.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day20 > button.door {
+  background-image: url('assets/tag20.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day21 > button.door {
+  background-image: url('assets/tag21.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day22 > button.door {
+  background-image: url('assets/tag22.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day23 > button.door {
+  background-image: url('assets/tag23.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+li.day24 > button.door {
+  background-image: url('assets/tag24.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
