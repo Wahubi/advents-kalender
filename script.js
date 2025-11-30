@@ -9,16 +9,16 @@
 
 // Trage hier deine Inhalte ein. Für Tage ohne Rätsel genügt q:"", a:"", dann öffnet die Tür sofort.
 const entries = [
-  { q: "ASCII: 72 97 108 108 111 → Welche Begrüßung steht da?", a: "hallo", hint: "Unter dem Kissen" },
-  { q: "Ich bin klein, aus Plastik, stecke im USB-Port — was bin ich?", a: "usbstick", hint: "Schublade" },
-  { q: "Binär: 1010 (dezimal) = ?", a: "10", hint: "Im Bücherregal" },
-  { q: "", a: "", hint: "Hinter dem Monitor" }, // kein Rätsel: öffnet sofort
-  { q: "Ich passe in die Jackentasche, trage dich warm — was bin ich?", a: "handschuh", hint: "In der Jacke" },
-  { q: "", a: "", hint: "Unter dem Sofa-Kissen" },
-  { q: "Welche Versionsverwaltung beginnt mit 'g'?", a: "git", hint: "Auf dem Schreibtisch" },
-  { q: "", a: "", hint: "In der kleinen Schublade" },
-  { q: "", a: "", hint: "Auf dem Kühlschrank" },
-  { q: "Zehn mal Eins = ?", a: "10", hint: "Hinter dem Bilderrahmen" },
+  { q: "ASCII: 74 97 110 32 104 97 116 32 105 109 109 101 114 32 82 101 99 104 116  → Was steht da?", a: "Jan hat immer Recht", hint: "Schokoriegel" },
+  { q: "Ich bin klein, grün und pupse viel. Wer bin ich?", a: "Lars", hint: "Mentos! Yay :D" },
+  { q: "Wie verlängerst du eine n-bit Zahl im Two's-Complement zu einer n+1-bit Zahl ohne ihren WErt zu ädnern?", a: "Sign extension", hint: "Club Mate" },
+  { q: "Welchen Fisch auf dem Bild hatten wir zwei mal?", a: "Hornhecht", hint: "Schokoriegel" },
+  { q: "Wie macht die Raupi?", a: "handschuh", hint: "Oreos" }, // Tag 5
+  { q: "", a: "", hint: "Vitamin Well! " },
+  { q: "Welche Versionsverwaltung beginnt mit 'g'?", a: "git", hint: "Mentos" },
+  { q: "", a: "", hint: "Schoki" },
+  { q: "", a: "", hint: "Oreo" },
+  { q: "Zehn mal Eins = ?", a: "10", hint: "Vitamin Well" }, // Tag 10
   { q: "", a: "", hint: "Unter dem Rucksack" },
   { q: "Hex 0x1A = ?", a: "26", hint: "Im Schuhregal" },
   { q: "", a: "", hint: "Bei den Pflanzen" },
@@ -147,7 +147,7 @@ function buildCalendar() {
     open.textContent = entry.hint || "Kein Hinweis";
 
     // setze initial display: open-content hidden (CSS kümmert sich, fallback hier)
-    open.style.display = "none";
+    //open.style.display = "none";
 
     // Anfügen
     btn.appendChild(closed);
@@ -156,10 +156,10 @@ function buildCalendar() {
     if (openedSet.has(day)) {
       btn.classList.add("open");
       btn.setAttribute("aria-expanded", "true");
-      const openContent = btn.querySelector(".open-content");
-      const closedLabel = btn.querySelector(".closed-label");
-      if (openContent) openContent.style.display = "block";
-      if (closedLabel) closedLabel.style.visibility = "hidden";
+      // const openContent = btn.querySelector(".open-content");
+      // const closedLabel = btn.querySelector(".closed-label");
+      // if (openContent) openContent.style.display = "block";
+      // if (closedLabel) closedLabel.style.visibility = "hidden";
     }
     ol.appendChild(li);
 
@@ -175,15 +175,23 @@ function buildCalendar() {
 function onDoorClick(btn, entry) {
   const day = Number(btn.dataset.day);
   // check if allowed
-  if (!isAllowedToOpen(day)) {
-    // Für Benutzerfreundlichkeit: zeige Meldung, erlauben zum Test per confirm
-    const ok = confirm(`Tür ${day} ist noch nicht freigegeben. Für Test freischalten?`);
-    if (!ok) return;
-  }
+ 
 
   // Wenn kein Rätsel gesetzt, öffnen wir sofort
   const q = (entry.q || "").trim();
   const a = (entry.a || "").trim();
+
+  if (!q) {
+    alert('Heute bin ich mal nett, kein Rätsel für dich :D');
+    toggleOpen(btn);
+    return;
+  }
+
+  if (!isAllowedToOpen(day)) {
+    // Für Benutzerfreundlichkeit: zeige Meldung, erlauben zum Test per confirm
+    const ok = confirm(`Nicht so schnell frechi Raji! >:-) Erstmal musst du es dir verdienen! Hehe`);
+    if (!ok) return;
+  }
 
   if (!q) {
     // Sofort öffnen (toggle)
@@ -195,9 +203,13 @@ function onDoorClick(btn, entry) {
   const user = prompt(`Tür ${day}\n\n${q}\n\nDeine Antwort:`);
   if (user === null) return; // Abbrechen
 
-  if (normalizeAnswer(user) === normalizeAnswer(a)) {
+  if (day == 5 || normalizeAnswer(user) === normalizeAnswer(a)) {
     // richtig
-    alert("Richtig! Hier ist dein Hinweis.");
+    if (day == 5) {
+      alert("Richtig! Krass dass du das beim ersten mal richtig hattest! Hier deine Belohnung:")
+    } else {
+      alert("Richtig! Hier ist deine Belohnung.");
+    }
     toggleOpen(btn);
   } else {
     alert("Nicht korrekt — versuch's noch einmal!");
@@ -208,10 +220,10 @@ function toggleOpen(btn) {
   const opened = btn.classList.toggle("open");
   btn.setAttribute("aria-expanded", opened ? "true" : "false");
 
-  const openContent = btn.querySelector(".open-content");
-  const closedLabel = btn.querySelector(".closed-label");
-  if (openContent) openContent.style.display = opened ? "block" : "none";
-  if (closedLabel) closedLabel.style.visibility = opened ? "hidden" : "visible";
+  // const openContent = btn.querySelector(".open-content");
+  // const closedLabel = btn.querySelector(".closed-label");
+  // if (openContent) openContent.style.display = opened ? "block" : "none";
+  // if (closedLabel) closedLabel.style.visibility = opened ? "hidden" : "visible";
 
   // persistieren: openedSet aktualisieren
   const day = Number(btn.dataset.day);
