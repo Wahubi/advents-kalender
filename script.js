@@ -18,7 +18,7 @@ const entries = [
   { q: "Welche Versionsverwaltung beginnt mit 'g'?", a: "git", hint: "Mentos" },
   { q: "", a: "", hint: "Schoki" },
   { q: "", a: "", hint: "Oreo" },
-  { q: "Zehn mal Eins = ?", a: "10", hint: "Vitamin Well" }, // Tag 10
+  { q: "Das ist ein Rätsel von Lars: Hallo Mama! Das ist richtig schwer: Also wenn du - also wenn du- du hast - errhmm. Och manno. Die Antwort ist nicht 10 :(", a: " nicht 10", hint: "Vitamin Well" }, // Tag 10
   { q: "", a: "", hint: "Unter dem Rucksack" },
   { q: "Hex 0x1A = ?", a: "26", hint: "Im Schuhregal" },
   { q: "", a: "", hint: "Bei den Pflanzen" },
