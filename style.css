@@ -169,11 +169,6 @@
     z-index: 1;
   }
 
-  li > button.door.open {
-    filter: brightness(1.6) saturate(1.1); /* Heller + leicht gesättigt */
-    transition: filter 0.3s ease;
-  }
-
   /* --- CLOSED LABEL (Überraschung) --- */
   button.door .closed-label {
     color: var(--card-text);
