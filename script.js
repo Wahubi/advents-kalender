@@ -1,13 +1,7 @@
-/* script.js
-   Erzeugt 24 Türchen automatisch, verwaltet Locking + Toggle + einfache Rätselprüfung.
-   Auf Deutsch kommentiert und einfach anpassbar.
-*/
-
 //////////////////////////
 // Konfiguration / Inhalte
 //////////////////////////
 
-// Trage hier deine Inhalte ein. Für Tage ohne Rätsel genügt q:"", a:"", dann öffnet die Tür sofort.
 const entries = [
   { q: "ASCII: 74 97 110 32 104 97 116 32 105 109 109 101 114 32 82 101 99 104 116  → Was steht da?", a: "Jan hat immer Recht", hint: "Schokoriegel" },
   { q: "Ich bin klein, grün und pupse viel. Wer bin ich?", a: "Lars", hint: "Mentos! Yay :D" },
@@ -17,22 +11,22 @@ const entries = [
   { q: "", a: "", hint: "Vitamin Well! " },
   { q: "Welche Versionsverwaltung beginnt mit 'g'?", a: "git", hint: "Mentos" },
   { q: "", a: "", hint: "Schoki" },
-  { q: "", a: "", hint: "Oreo" },
+  { q: "Langsam gehen mir die Rätsel aus. Wie hieß der der den Jungen in Game of Thrones aus dem Fenster geworfen hat? ", a: "Jamie Lannister", hint: "Oreo" },
   { q: "Das ist ein Rätsel von Lars: Hallo Mama! Das ist richtig schwer: Also wenn du - also wenn du- du hast - errhmm. Och manno. Die Antwort ist nicht 10 :(", a: " nicht 10", hint: "Vitamin Well" }, // Tag 10
-  { q: "", a: "", hint: "Unter dem Rucksack" },
-  { q: "Hex 0x1A = ?", a: "26", hint: "Im Schuhregal" },
-  { q: "", a: "", hint: "Bei den Pflanzen" },
-  { q: "", a: "", hint: "In der Werkzeugkiste" },
-  { q: "", a: "", hint: "Auf dem Balkon" },
-  { q: "", a: "", hint: "Unter dem Esstisch" },
-  { q: "", a: "", hint: "In der Tasche neben dem Sofa" },
-  { q: "", a: "", hint: "Zwischen den DVDs" },
-  { q: "", a: "", hint: "Unter der Tastatur" },
-  { q: "", a: "", hint: "In der Kamera-Tasche" },
-  { q: "", a: "", hint: "Hinten am Schrank" },
-  { q: "", a: "", hint: "In der Brotdose" },
-  { q: "", a: "", hint: "Unter der Bettdecke" },
-  { q: "Wie sagt man 'I love you' auf Deutsch?", a: "ich liebe dich", hint: "Großes Geschenk am 24. Dezember" }
+  { q: "", a: "", hint: "Oreo Double Cream" },
+  { q: "Welche Farbe ist das: 0xFFFFFF", a: "weiß", hint: "Club Mate" },
+  { q: "", a: "", hint: "Mentos" },
+  { q: "", a: "", hint: "Eine Folge Big Bang lang massieren" },
+  { q: "", a: "", hint: "Shokiladi" }, 
+  { q: "", a: "", hint: "Colaaa" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "", hint: "" },
+  { q: "", a: "ich liebe dich", hint: "Eine Folge Downtown Abby mir Jani + massieren" }
 ];
 
 // Option: setze testing = true, um Türen jederzeit freizuschalten (zum Testen)
